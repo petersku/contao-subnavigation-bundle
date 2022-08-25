@@ -1,15 +1,13 @@
 <?php
-
-declare(strict_types=1);
-
+	
 /*
- * This file is part of [package name].
+ * This file is part of contao article classes bundle.
  *
- * (c) John Doe
+ * (c) Petersku
  *
  * @license LGPL-3.0-or-later
  */
-
+ 
 namespace Petersku\ContaoSubnavigationBundle\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
@@ -20,7 +18,10 @@ use Petersku\ContaoSubnavigationBundle\ContaoSubnavigationBundle;
 
 class Plugin implements BundlePluginInterface
 {
-    public function getBundles(ParserInterface $parser): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getBundles(ParserInterface $parser)
     {
         return [
             BundleConfig::create(ContaoSubnavigationBundle::class)
