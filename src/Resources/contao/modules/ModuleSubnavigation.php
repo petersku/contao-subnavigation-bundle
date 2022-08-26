@@ -61,23 +61,26 @@ class ModuleSubnavigation extends Module
 		$items = array();					
 		
 		while ($objSubpages->next()) {
-			$row = $objSubpages->row();
-			//$trail = in_array($objSubpages->id, $objPage->trail);
-			
-			if (($objPage->id == $objSubpages->id)) {
-				$row['isActive'] = true;							
-			} else {
-				$row['isActive'] = false;											
+			// Do not show protected pages
+			if (!$objSubpages->protected || BE_USER_LOGGED_IN || (is_array($_groups) && count(array_intersect($_groups, $groups))) || $this->showProtected || ($this instanceof \ModuleSitemap && $objSubpages->sitemap == 'map_always'))
+			{			
+				$row = $objSubpages->row();
+				//$trail = in_array($objSubpages->id, $objPage->trail);
+				
+				if (($objPage->id == $objSubpages->id)) {
+					$row['isActive'] = true;							
+				} else {
+					$row['isActive'] = false;											
+				}
+				$row['title'] = specialchars($objSubpages->title, true);
+				$row['pageTitle'] = specialchars($objSubpages->pageTitle, true);
+				$row['link'] = $objSubpages->title;
+				
+				$href = $this->generateFrontendUrl($objSubpages->row(), null, true);
+				$row['href'] = $href;
+				
+				$items[] = $row;
 			}
-			$row['title'] = specialchars($objSubpages->title, true);
-			$row['pageTitle'] = specialchars($objSubpages->pageTitle, true);
-			$row['link'] = $objSubpages->title;
-			
-			$href = $this->generateFrontendUrl($objSubpages->row(), null, true);
-			$row['href'] = $href;
-			
-			
-			$items[] = $row;
 		}
 		
 		// Add classes first and last
